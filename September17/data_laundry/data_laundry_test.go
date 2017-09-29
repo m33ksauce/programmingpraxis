@@ -1,7 +1,34 @@
-package main
+package datalaundry
 
-import "testing"
+import (
+	"bytes"
+	"io/ioutil"
+	"testing"
+)
 
+func TestCleanFile(t *testing.T) {
+	inputFileName := "input.txt"
+	resultFileName := "result.csv"
+
+	err := cleanFile(inputFileName, resultFileName)
+	if err != nil {
+		t.Error(err)
+	}
+
+	resultData, rerr := ioutil.ReadFile(resultFileName)
+	if rerr != nil {
+		t.Error(rerr)
+	}
+
+	testData, terr := ioutil.ReadFile("testResult.csv")
+	if terr != nil {
+		t.Error(terr)
+	}
+
+	if !bytes.Equal(resultData, testData) {
+		t.Errorf("Files do not match! Awful!")
+	}
+}
 func TestNewIface(t *testing.T) {
 	iname := "name"
 	inet := "inet"
@@ -23,12 +50,12 @@ func TestNewIface(t *testing.T) {
 func TestReadFile(t *testing.T) {
 	// Test data
 	tData := &iface{name: "lo0", inet: "127.0.0.1"}
-	
+
 	myFile := "/path/to/file.txt"
 	myData := &iface{}
 
 	err := readFile(myFile, myData)
-	
+
 	if err != nil {
 		t.Error(err)
 	}
@@ -38,7 +65,7 @@ func TestReadFile(t *testing.T) {
 }
 
 func match(ia *iface, ib *iface) bool {
-	if (ia.name != ib.name) {
+	if ia.name != ib.name {
 		return false
 	}
 	if ia.inet != ib.inet {

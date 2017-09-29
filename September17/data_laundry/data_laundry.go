@@ -1,10 +1,8 @@
-package main
-
-import "fmt"
+package datalaundry
 
 type iface struct {
-	name string
-	inet string
+	name   string
+	inet   string
 	status string
 }
 
@@ -15,7 +13,6 @@ func readFile(f string, i *iface) error {
 	return nil
 }
 
-func main() {
-	i := iface{"test", "test", "up"}
-	fmt.Println(i.status)
+func cleanFile(in string, out string) error {
+	return nil
 }
